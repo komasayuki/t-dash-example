@@ -1,0 +1,29 @@
+name: Test by T-DASH
+
+on:
+  push:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  test-t-dash:
+    runs-on: windows-latest
+    name: T-DASH test
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Build & launch server
+        run: |
+          npm install
+          npm start &
+        shell: bash
+
+      - uses: komasayuki/t-dash-action@v1_windows
+        with:
+          sync-path: test/t-dash/sync
+          test-run-name: all
